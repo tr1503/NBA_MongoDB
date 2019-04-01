@@ -7,5 +7,7 @@
   db.createView("CHI", "East_Confs", [{$match:{"teamAbbr":"CHI"}}])
   db.createView("LAC", "West_Confs", [{$match:{"teamAbbr":"LAC"}}])
 </div>
-给每个队的standing创建standing view，例子：
-db.createView("CHI_standing", "standings", [{$match:{"teamAbbr":"CHI"}}]
+<div>
+  给每个队的standing创建standing view，例子：
+  db.createView("CHI_standing", "standings", [{$match:{"teamAbbr":"CHI"}}]
+</div>
