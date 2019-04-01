@@ -1,5 +1,5 @@
-db.createView("East_Confs","teams",[{$match:{"teamConf":"East"}}])
-db.createView("West_Confs","teams",[{$match:{"teamConf":"West"}}])
+<p>db.createView("East_Confs","teams",[{$match:{"teamConf":"East"}}])</p>
+<p>db.createView("West_Confs","teams",[{$match:{"teamConf":"West"}}])</p>
 east_team: ['CHI','ATL','DET','CLE','NY','ORL','WAS','BKN','BOS','PHI','MIL','CHA','TOR','MIA','IND']
 west_team: ['LAC','DEN','GS','POR','NO','MIN','LAL''HOU','OKC','SA','UTA','SAC','DAL','MEM','PHO']
 用上面两个array create team view，例子：
