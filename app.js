@@ -121,7 +121,7 @@ var East_Conf = mongoose.model("East_Conf", teamSchema, "East_Confs");
 var West_Conf = mongoose.model("West_Conf",teamSchema, "West_Confs");
 
 app.get("/mongodb", function(req, res) {
-    res.render("index");
+    res.render("home");
 });
 
 app.listen(3000, function() {
