@@ -1,4 +1,5 @@
-var app = require("express")(),
+var express = require("express"),
+    app = express(),
     bodyparser = require("body-parser"),
     mongoose = require("mongoose");
 
@@ -120,8 +121,75 @@ var Standing = mongoose.model("standing", standingSchema);
 var East_Conf = mongoose.model("East_Conf", teamSchema, "East_Confs");
 var West_Conf = mongoose.model("West_Conf",teamSchema, "West_Confs");
 
-app.get("/mongodb", function(req, res) {
+var CHI = mongoose.model("CHI", teamSchema, "CHI");
+var ATL = mongoose.model("ATL", teamSchema, "ATL");
+var DET = mongoose.model("DET", teamSchema, "DET");
+var CLE = mongoose.model("CLE", teamSchema, "CLE");
+var NY = mongoose.model("NY", teamSchema, "NY");
+var ORL = mongoose.model("ORL", teamSchema, "ORL");
+var WAS = mongoose.model("WAS", teamSchema, "WAS");
+var BKN = mongoose.model("BKN", teamSchema, "BKN");
+var BOS = mongoose.model("BOS", teamSchema, "BOS");
+var PHI = mongoose.model("PHI", teamSchema, "PHI");
+var MIL = mongoose.model("MIL", teamSchema, "MIL");
+var CHA = mongoose.model("CHA", teamSchema, "CHA");
+var TOR = mongoose.model("TOR", teamSchema, "TOR");
+var MIA = mongoose.model("MIA", teamSchema, "MIA");
+var IND = mongoose.model("IND", teamSchema, "IND");
+var LAC = mongoose.model("LAC", teamSchema, "LAC");
+var DEN = mongoose.model("DEN", teamSchema, "DEN");
+var GS = mongoose.model("GS", teamSchema, "GS");
+var POR = mongoose.model("POR", teamSchema, "POR");
+var NO = mongoose.model("NO", teamSchema, "NO");
+var MIN = mongoose.model("MIN", teamSchema, "MIN");
+var LAL = mongoose.model("LAL", teamSchema, "LAL");
+var HOU = mongoose.model("HOU", teamSchema, "HOU");
+var OKC = mongoose.model("OKC", teamSchema, "OKC");
+var SA = mongoose.model("SA", teamSchema, "SA");
+var UTA = mongoose.model("UTA", teamSchema, "UTA");
+var SAC = mongoose.model("SAC", teamSchema, "SAC");
+var DAL = mongoose.model("DAL", teamSchema, "DAL");
+var MEM = mongoose.model("MEM", teamSchema, "MEM");
+var PHO = mongoose.model("PHO", teamSchema, "PHO");
+
+var CHI_standing = mongoose.model("CHI_standing", standingSchema, "CHI_standing");
+var ATL_standing = mongoose.model("ATL_standing", standingSchema, "ATL_standing");
+var DET_standing = mongoose.model("DET_standing", standingSchema, "DET_standing");
+var CLE_standing = mongoose.model("CLE_standing", standingSchema, "CLE_standing");
+var NY_standing = mongoose.model("NY_standing", standingSchema, "NY_standing");
+var ORL_standing = mongoose.model("ORL_standing", standingSchema, "ORL_standing");
+var WAS_standing = mongoose.model("WAS_standing", standingSchema, "WAS_standing");
+var BKN_standing = mongoose.model("BKN_standing", standingSchema, "BKN_standing");
+var BOS_standing = mongoose.model("BOS_standing", standingSchema, "BOS_standing");
+var PHI_standing = mongoose.model("PHI_standing", standingSchema, "PHI_standing");
+var MIL_standing = mongoose.model("MIL_standing", standingSchema, "MIL_standing");
+var CHA_standing = mongoose.model("CHA_standing", standingSchema, "CHA_standing");
+var TOR_standing = mongoose.model("TOR_standing", standingSchema, "TOR_standing");
+var MIA_standing = mongoose.model("MIA_standing", standingSchema, "MIA_standing");
+var IND_standing = mongoose.model("IND_standing", standingSchema, "IND_standing");
+var LAC_standing = mongoose.model("LAC_standing", standingSchema, "LAC_standing");
+var DEN_standing = mongoose.model("DEN_standing", standingSchema, "DEN_standing");
+var GS_standing = mongoose.model("GS_standing", standingSchema, "GS_standing");
+var POR_standing = mongoose.model("POR_standing", standingSchema, "POR_standing");
+var NO_standing = mongoose.model("NO_standing", standingSchema, "NO_standing");
+var MIN_standing = mongoose.model("MIN_standing", standingSchema, "MIN_standing");
+var LAL_standing = mongoose.model("LAL_standing", standingSchema, "LAL_standing");
+var HOU_standing = mongoose.model("HOU_standing", standingSchema, "HOU_standing");
+var OKC_standing = mongoose.model("OKC_standing", standingSchema, "OKC_standing");
+var SA_standing = mongoose.model("SA_standing", standingSchema, "SA_standing");
+var UTA_standing = mongoose.model("UTA_standing", standingSchema, "UTA_standing");
+var SAC_standing = mongoose.model("SAC_standing", standingSchema, "SAC_standing");
+var DAL_standing = mongoose.model("DAL_standing", standingSchema, "DAL_standing");
+var MEM_standing = mongoose.model("MEM_standing", standingSchema, "MEM_standing");
+var PHO_standing = mongoose.model("PHO_standing", standingSchema, "PHO_standing");
+
+
+app.get("/", function(req, res) {
     res.render("home");
+});
+
+app.get("/mongodb", function(req, res) {
+    res.render("index");
 });
 
 app.listen(3000, function() {
