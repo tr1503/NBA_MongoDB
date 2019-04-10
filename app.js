@@ -183,6 +183,7 @@ var DAL_standing = mongoose.model("DAL_standing", standingSchema, "DAL_standing"
 var MEM_standing = mongoose.model("MEM_standing", standingSchema, "MEM_standing");
 var PHO_standing = mongoose.model("PHO_standing", standingSchema, "PHO_standing");
 
+var teamsView = [CHI, ATL, DET, CLE, NY, ORL, WAS, BKN, BOS, PHI, MIL, CHA, TOR, MIA, IND, LAC, DEN, GS, POR, NO, MIN, LAL, HOU, OKC, SA, UTA, SAC, DAL, MEM, PHO];
 
 app.get("/", function(req, res) {
     res.render("home");
@@ -190,6 +191,20 @@ app.get("/", function(req, res) {
 
 app.get("/mongodb", function(req, res) {
     res.render("index");
+});
+
+app.post("/search", function(req, res) {
+    var team = req.body.team;
+    for (var i = 0; i < teamsView.length; i++) {
+        if (teamsView[i].collection.collectionName == team) {
+            teamsView[i].aggregate([{$group: {_id: "$teamAbbr", avgPoints: {$avg: "$teamPTS"}}}], function(err, query) {
+                if (err)
+                    console.log(err);
+                else
+                    res.render("show", {query: query});
+            });
+        }
+    }
 });
 
 app.listen(3000, function() {
