@@ -49,7 +49,7 @@ var teamSchema = new mongoose.Schema({
     teamRslt: String,
     teamPTS: Number,
     teamAST: Number,
-    teamTo: Number,
+    teamTO: Number,
     teamSTL: Number,
     teamBLK: Number,
     teamPF: Number,
@@ -225,11 +225,26 @@ app.get("/mongodb", function(req, res) {
     res.render("index");
 });
 
+// app.post("/search", function(req, res) {
+//     var team = req.body.team;
+//     for (var i = 0; i < teamsView.length; i++) {
+//         if (teamsView[i].collection.collectionName == team) {
+//             teamsView[i].aggregate([{$group: {_id: "$teamAbbr", avgPoints: {$avg: "$teamPTS"}}}], function(err, query) {
+//                 if (err)
+//                     console.log(err);
+//                 else
+//                     res.render("show", {query: query});
+//             });
+//         }
+//     }
+// });
+
 app.post("/search", function(req, res) {
     var team = req.body.team;
+    var date = req.body.date;
     for (var i = 0; i < teamsView.length; i++) {
         if (teamsView[i].collection.collectionName == team) {
-            teamsView[i].aggregate([{$group: {_id: "$teamAbbr", avgPoints: {$avg: "$teamPTS"}}}], function(err, query) {
+            teamsView[i].find({gmDate: date}, "gmDate teamAbbr opptAbbr teamRslt teamPTS teamAST teamTO teamSTL teamBLK teamPF teamFGA teamFGM team2PA team2PM team3PA team3PM teamFTA teamFTM teamORB teamDRB", function(err, query) {
                 if (err)
                     console.log(err);
                 else

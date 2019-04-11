@@ -3,13 +3,50 @@
 <div class="container">
     <table class="table">
         <tr>
+            <th>Date</th>
             <th>Team</th>
-            <th>Average Points</th>
+            <th>Result</th>
+            <th>Opponent</th>
+            <th>Points</th>
+            <th>Assist</th>
+            <th>Turnover</th>
+            <th>Steal</th>
+            <th>Block</th>
+            <th>Fouls</th>
+            <th>Field Goal Attempts</th>
+            <th>Field Goal Shots</th>
+            <th>Two Point Attempts</th>
+            <th>Two Point Shots</th>
+            <th>Three Point Attempts</th>
+            <th>Three Point Shots</th>
+            <th>Three Point Attempts</th>
+            <th>Free Throw Attempts</th>
+            <th>Free Throw Shots</th>
+            <th>Offensive rebounds</th>
+            <th>Defensive rebounds</th>
         </tr>
         <tr>
             <% query.forEach(function(res) { %>
-                <td><%= res._id %></td>
-                <td><%= res.avgPoints %></td>
+                <td><%= res.gmDate %></td>
+                <td><%= res.teamAbbr %></td>
+                <td><%= res.teamRslt %></td>
+                <td><%= res.opptAbbr %></td>
+                <td><%= res.teamPTS %></td>
+                <td><%= res.teamAST %></td>
+                <td><%= res.teamTO %></td>
+                <td><%= res.teamSTL %></td>
+                <td><%= res.teamBLK %></td>
+                <td><%= res.teamPF %></td>
+                <td><%= res.teamFGA %></td>
+                <td><%= res.teamFGM %></td>
+                <td><%= res.team2PA %></td>
+                <td><%= res.team2PM %></td>
+                <td><%= res.team3PA %></td>
+                <td><%= res.team3PM %></td>
+                <td><%= res.teamFTA %></td>
+                <td><%= res.teamFTM %></td>
+                <td><%= res.teamORB %></td>
+                <td><%= res.teamDRB %></td>
             <% }) %>
         </tr>
     </table>
