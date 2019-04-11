@@ -183,6 +183,38 @@ var DAL_standing = mongoose.model("DAL_standing", standingSchema, "DAL_standing"
 var MEM_standing = mongoose.model("MEM_standing", standingSchema, "MEM_standing");
 var PHO_standing = mongoose.model("PHO_standing", standingSchema, "PHO_standing");
 
+var CHI_players = mongoose.model("CHI_players", playerSchema, "CHI_players");
+var ATL_players = mongoose.model("ATL_players", playerSchema, "ATL_players");
+var DET_players = mongoose.model("DET_players", playerSchema, "DET_players");
+var CLE_players = mongoose.model("CLE_players", playerSchema, "CLE_players");
+var NY_players = mongoose.model("NY_players", playerSchema, "NY_players");
+var ORL_players = mongoose.model("ORL_players", playerSchema, "ORL_players");
+var WAS_players = mongoose.model("WAS_players", playerSchema, "WAS_players");
+var BKN_players = mongoose.model("BKN_players", playerSchema, "BKN_players");
+var BOS_players = mongoose.model("BOS_players", playerSchema, "BOS_players");
+var PHI_players = mongoose.model("PHI_players", playerSchema, "PHI_players");
+var MIL_players = mongoose.model("MIL_players", playerSchema, "MIL_players");
+var CHA_players = mongoose.model("CHA_players", playerSchema, "CHA_players");
+var TOR_players = mongoose.model("TOR_players", playerSchema, "TOR_players");
+var MIA_players = mongoose.model("MIA_players", playerSchema, "MIA_players");
+var IND_players = mongoose.model("IND_players", playerSchema, "IND_players");
+var LAC_players = mongoose.model("LAC_players", playerSchema, "LAC_players");
+var DEN_players = mongoose.model("DEN_players", playerSchema, "DEN_players");
+var GS_players = mongoose.model("GS_players", playerSchema, "GS_players");
+var POR_players = mongoose.model("POR_players", playerSchema, "POR_players");
+var NO_players = mongoose.model("NO_players", playerSchema, "NO_players");
+var MIN_players = mongoose.model("MIN_players", playerSchema, "MIN_players");
+var LAL_players = mongoose.model("LAL_players", playerSchema, "LAL_players");
+var HOU_players = mongoose.model("HOU_players", playerSchema, "HOU_players");
+var OKC_players = mongoose.model("OKC_players", playerSchema, "OKC_players");
+var SA_players = mongoose.model("SA_players", playerSchema, "SA_players");
+var UTA_players = mongoose.model("UTA_players", playerSchema, "UTA_players");
+var SAC_players = mongoose.model("SAC_players", playerSchema, "SAC_players");
+var DAL_players = mongoose.model("DAL_players", playerSchema, "DAL_players");
+var MEM_players = mongoose.model("MEM_players", playerSchema, "MEM_players");
+var PHO_players = mongoose.model("PHO_players", playerSchema, "PHO_players");
+
+
 var teamsView = [CHI, ATL, DET, CLE, NY, ORL, WAS, BKN, BOS, PHI, MIL, CHA, TOR, MIA, IND, LAC, DEN, GS, POR, NO, MIN, LAL, HOU, OKC, SA, UTA, SAC, DAL, MEM, PHO];
 
 app.get("/", function(req, res) {
