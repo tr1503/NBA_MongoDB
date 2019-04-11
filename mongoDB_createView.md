@@ -11,3 +11,7 @@
   给每个队的standing创建standing view，例子：
   db.createView("CHI_standing", "standings", [{$match:{"teamAbbr":"CHI"}}]
 </div>
+<div>
+  给每个队的player创建player view，例子:
+  db.createView("CHI_players", "players", [{$match:{"teamAbbr":"CHI"}}]
+</div>
