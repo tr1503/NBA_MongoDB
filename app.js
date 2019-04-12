@@ -244,11 +244,11 @@ app.post("/search", function(req, res) {
     var date = req.body.date;
     for (var i = 0; i < teamsView.length; i++) {
         if (teamsView[i].collection.collectionName == team) {
-            teamsView[i].find({gmDate: date}, "gmDate teamAbbr opptAbbr teamRslt teamPTS teamAST teamTO teamSTL teamBLK teamPF teamFGA teamFGM team2PA team2PM team3PA team3PM teamFTA teamFTM teamORB teamDRB", function(err, query) {
+            teamsView[i].find({gmDate: date}, function(err, query) {
                 if (err)
                     console.log(err);
                 else
-                    res.render("show", {query: query});
+                    res.render("show", {query: query, team: team});
             });
         }
     }

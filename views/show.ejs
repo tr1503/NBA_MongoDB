@@ -25,28 +25,52 @@
             <th>Defensive rebounds</th>
         </tr>
         <tr>
-            <% query.forEach(function(res) { %>
-                <td><%= res.gmDate %></td>
-                <td><%= res.teamAbbr %></td>
-                <td><%= res.teamRslt %></td>
-                <td><%= res.opptAbbr %></td>
-                <td><%= res.teamPTS %></td>
-                <td><%= res.teamAST %></td>
-                <td><%= res.teamTO %></td>
-                <td><%= res.teamSTL %></td>
-                <td><%= res.teamBLK %></td>
-                <td><%= res.teamPF %></td>
-                <td><%= res.teamFGA %></td>
-                <td><%= res.teamFGM %></td>
-                <td><%= res.team2PA %></td>
-                <td><%= res.team2PM %></td>
-                <td><%= res.team3PA %></td>
-                <td><%= res.team3PM %></td>
-                <td><%= res.teamFTA %></td>
-                <td><%= res.teamFTM %></td>
-                <td><%= res.teamORB %></td>
-                <td><%= res.teamDRB %></td>
-            <% }) %>
+            <% query.forEach(function(res) { 
+                if (res.teamAbbr == team) { %>
+                    <td><%= res.gmDate %></td>
+                    <td><%= res.teamAbbr %></td>
+                    <td><%= res.teamRslt %></td>
+                    <td><%= res.opptAbbr %></td>
+                    <td><%= res.teamPTS %></td>
+                    <td><%= res.teamAST %></td>
+                    <td><%= res.teamTO %></td>
+                    <td><%= res.teamSTL %></td>
+                    <td><%= res.teamBLK %></td>
+                    <td><%= res.teamPF %></td>
+                    <td><%= res.teamFGA %></td>
+                    <td><%= res.teamFGM %></td>
+                    <td><%= res.team2PA %></td>
+                    <td><%= res.team2PM %></td>
+                    <td><%= res.team3PA %></td>
+                    <td><%= res.team3PM %></td>
+                    <td><%= res.teamFTA %></td>
+                    <td><%= res.teamFTM %></td>
+                    <td><%= res.teamORB %></td>
+                    <td><%= res.teamDRB %></td>
+                <% } 
+                else {%>
+                    <td><%= res.gmDate %></td>
+                    <td><%= res.opptAbbr %></td>
+                    <td><%= res.opptRslt %></td>
+                    <td><%= res.teamAbbr %></td>
+                    <td><%= res.opptPTS %></td>
+                    <td><%= res.opptAST %></td>
+                    <td><%= res.opptTO %></td>
+                    <td><%= res.opptSTL %></td>
+                    <td><%= res.opptBLK %></td>
+                    <td><%= res.opptPF %></td>
+                    <td><%= res.opptFGA %></td>
+                    <td><%= res.opptFGM %></td>
+                    <td><%= res.oppt2PA %></td>
+                    <td><%= res.oppt2PM %></td>
+                    <td><%= res.oppt3PA %></td>
+                    <td><%= res.oppt3PM %></td>
+                    <td><%= res.opptFTA %></td>
+                    <td><%= res.opptFTM %></td>
+                    <td><%= res.opptORB %></td>
+                    <td><%= res.opptDRB %></td>
+                <% }
+            }) %>
         </tr>
     </table>
     <a href="/mongodb" class="btn btn-primary">Go Back</a>
