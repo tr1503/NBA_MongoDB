@@ -4,7 +4,7 @@ db.createView("West_Confs","teams",[{$match:{"teamConf":"West"}}])
 
 --teamAbbr, FROM teams_Confs, second level:
 --East, ['CHI','ATL','DET','CLE','NY','ORL','WAS','BKN','BOS','PHI','MIL','CHA','TOR','MIA','IND']
-db.createView("CHI", "East_Confs", [{$match:{"teamAbbr":"CHI"}}])
+<p>db.createView("CHI","teams",[{$match:{$or: [{"teamAbbr":"CHI"}, {"opptAbbr":"CHI"}]}}])</p>
 db.createView("ATL", "East_Confs", [{$match:{"teamAbbr":"ATL"}}]) 
 db.createView("DET", "East_Confs", [{$match:{"teamAbbr":"DET"}}]) 
 db.createView("CLE", "East_Confs", [{$match:{"teamAbbr":"CLE"}}]) 
