@@ -225,8 +225,24 @@ app.get("/mongodb", function(req, res) {
     res.render("index");
 });
 
+app.get("/mongodb/dateStanding", function(req, res) {
+    res.render("dateStanding");
+});
+
+app.get("/mongodb/playerPerformance", function(req, res) {
+    res.render("playerPerformance");
+});
+
+app.get("/mongodb/playerContribution", function(req, res) {
+    res.render("playerContribution");
+});
+
 app.get("/mongodb/teamPerformance", function(req, res) {
     res.render("teamPerformance");
+});
+
+app.get("/mongodb/allStarRank", function(req, res) {
+    res.render("allStarRank");
 });
 
 // app.post("/search", function(req, res) {
@@ -243,7 +259,7 @@ app.get("/mongodb/teamPerformance", function(req, res) {
 //     }
 // });
 
-app.post("/mongoDB/search", function(req, res) {
+app.post("/mongoDB/teamPerformanceSearch", function(req, res) {
     var team = req.body.team;
     var date = req.body.date;
     for (var i = 0; i < teamsView.length; i++) {
@@ -256,6 +272,10 @@ app.post("/mongoDB/search", function(req, res) {
             });
         }
     }
+});
+
+app.post("/mongoDB/allStarRankShow", function(req, res) {
+    var team = req.body.team;
 });
 
 app.listen(3000, function() {

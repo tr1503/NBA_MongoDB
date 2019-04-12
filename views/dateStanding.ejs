@@ -1,0 +1,41 @@
+<% include partials/header %>
+<div class="container">
+    <div class="row">
+        <div style="width: 30%; margin: 25px auto;">
+            <form action = "/mongoDB/dateStandingSearch" method = "POST">
+                <div class="form-group">
+                    <label for="confSelect">Team</label>
+                    <select name="conf" id="confSelect" class="selectpicker show-menu-arrow form-control">
+                        <option value="East">East Conference</option>
+                        <option value="West">West Conference</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="rank">Rank</label>
+                    <select name="rank" id="rankSelect" class="selectpicker show-menu-arrow form-control">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-success btn-block">Submit!</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <a href="/mongodb" class="btn btn-primary">Go Back</a>
+</div>
+<% include partials/footer %>

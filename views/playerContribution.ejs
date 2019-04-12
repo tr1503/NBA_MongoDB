@@ -1,0 +1,51 @@
+<% include partials/header %>
+<div class="container">
+    <div class="row">
+        <div style="width: 30%; margin: 25px auto;">
+            <form action = "/mongoDB/playerContributionSearch" method = "POST">
+                <div class="form-group">
+                    <label for="player">Player Name</label>
+                    <input class="form-control" id="player" type = "text" name = "player" placeholder = "player name" required>
+                </div>
+                <div class="form-group">
+                    <label for="rank">Rank</label>
+                    <select name="rank" id="rankSelect" class="selectpicker show-menu-arrow form-control">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="performanceSelect">Choose Performance</label>
+                    <select name="performance" id="performanceSelect" class="selectpicker show-menu-arrow form-control">
+                        <option value="playPTS">Points</option>
+                        <option value="playAST">Assists</option>
+                        <option value="playTO">Turnovers</option>
+                        <option value="playSTL">Steals</option>
+                        <option value="playBLK">Blocks</option>
+                        <option value="playPF">Fouls</option>
+                        <option value="playORB">Offensive Rebounds</option>
+                        <option value="playDRB">Defensive Rebounds</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-success btn-block">Submit!</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <a href="/mongodb" class="btn btn-primary">Go Back</a>
+</div>
+<% include partials/footer %>
