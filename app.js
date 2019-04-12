@@ -225,6 +225,10 @@ app.get("/mongodb", function(req, res) {
     res.render("index");
 });
 
+app.get("/mongodb/teamPerformance", function(req, res) {
+    res.render("teamPerformance");
+});
+
 // app.post("/search", function(req, res) {
 //     var team = req.body.team;
 //     for (var i = 0; i < teamsView.length; i++) {
@@ -239,7 +243,7 @@ app.get("/mongodb", function(req, res) {
 //     }
 // });
 
-app.post("/search", function(req, res) {
+app.post("/mongoDB/search", function(req, res) {
     var team = req.body.team;
     var date = req.body.date;
     for (var i = 0; i < teamsView.length; i++) {
@@ -248,7 +252,7 @@ app.post("/search", function(req, res) {
                 if (err)
                     console.log(err);
                 else
-                    res.render("show", {query: query, team: team});
+                    res.render("teamPerformanceShow", {query: query, team: team});
             });
         }
     }
