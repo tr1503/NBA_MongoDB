@@ -1,0 +1,101 @@
+--teamConf, FROM teams, first level:
+db.createView("East_Confs","teams",[{$match:{"teamConf":"East"}}])
+db.createView("West_Confs","teams",[{$match:{"teamConf":"West"}}])
+
+--teamAbbr, FROM teams_Confs, second level:
+--East, ['CHI','ATL','DET','CLE','NY','ORL','WAS','BKN','BOS','PHI','MIL','CHA','TOR','MIA','IND']
+db.createView("CHI", "East_Confs", [{$match:{"teamAbbr":"CHI"}}])
+db.createView("ATL", "East_Confs", [{$match:{"teamAbbr":"ATL"}}]) 
+db.createView("DET", "East_Confs", [{$match:{"teamAbbr":"DET"}}]) 
+db.createView("CLE", "East_Confs", [{$match:{"teamAbbr":"CLE"}}]) 
+db.createView("NY", "East_Confs", [{$match:{"teamAbbr":"NY"}}]) 
+db.createView("ORL", "East_Confs", [{$match:{"teamAbbr":"ORL"}}]) 
+db.createView("WAS", "East_Confs", [{$match:{"teamAbbr":"WAS"}}]) 
+db.createView("BKN", "East_Confs", [{$match:{"teamAbbr":"BKN"}}]) 
+db.createView("BOS", "East_Confs", [{$match:{"teamAbbr":"BOS"}}]) 
+db.createView("PHI", "East_Confs", [{$match:{"teamAbbr":"PHI"}}]) 
+db.createView("MIL", "East_Confs", [{$match:{"teamAbbr":"MIL"}}]) 
+db.createView("CHA", "East_Confs", [{$match:{"teamAbbr":"CHA"}}]) 
+db.createView("TOR", "East_Confs", [{$match:{"teamAbbr":"TOR"}}]) 
+db.createView("MIA", "East_Confs", [{$match:{"teamAbbr":"MIA"}}]) 
+db.createView("IND", "East_Confs", [{$match:{"teamAbbr":"IND"}}])
+--West, ['LAC','DEN','GS','POR','NO','MIN','LAL''HOU','OKC','SA','UTA','SAC','DAL','MEM','PHO']
+db.createView("LAC", "West_Confs", [{$match:{"teamAbbr":"LAC"}}]) 
+db.createView("DEN", "West_Confs", [{$match:{"teamAbbr":"DEN"}}])
+db.createView("GS", "West_Confs", [{$match:{"teamAbbr":"GS"}}])
+db.createView("POR", "West_Confs", [{$match:{"teamAbbr":"POR"}}])
+db.createView("NO", "West_Confs", [{$match:{"teamAbbr":"NO"}}])
+db.createView("MIN", "West_Confs", [{$match:{"teamAbbr":"MIN"}}])
+db.createView("LAL", "West_Confs", [{$match:{"teamAbbr":"LAL"}}])
+db.createView("HOU", "West_Confs", [{$match:{"teamAbbr":"HOU"}}])
+db.createView("OKC", "West_Confs", [{$match:{"teamAbbr":"OKC"}}])
+db.createView("SA", "West_Confs", [{$match:{"teamAbbr":"SA"}}])
+db.createView("UTA", "West_Confs", [{$match:{"teamAbbr":"UTA"}}])
+db.createView("SAC", "West_Confs", [{$match:{"teamAbbr":"SAC"}}])
+db.createView("DAL", "West_Confs", [{$match:{"teamAbbr":"DAL"}}])
+db.createView("MEM", "West_Confs", [{$match:{"teamAbbr":"MEM"}}])
+db.createView("PHO", "West_Confs", [{$match:{"teamAbbr":"PHO"}}])
+
+--teamAbbr, FROM standings
+db.createView("CHI_standing", "standings", [{$match:{"teamAbbr":"CHI"}}]
+db.createView("ATL_standing", "standings", [{$match:{"teamAbbr":"ATL"}}]
+db.createView("DET_standing", "standings", [{$match:{"teamAbbr":"DET"}}]
+db.createView("CLE_standing", "standings", [{$match:{"teamAbbr":"CLE"}}]
+db.createView("NY_standing", "standings", [{$match:{"teamAbbr":"NY"}}]
+db.createView("ORL_standing", "standings", [{$match:{"teamAbbr":"ORL"}}]
+db.createView("WAS_standing", "standings", [{$match:{"teamAbbr":"WAS"}}]
+db.createView("BKN_standing", "standings", [{$match:{"teamAbbr":"BKN"}}]
+db.createView("BOS_standing", "standings", [{$match:{"teamAbbr":"BOS"}}]
+db.createView("PHI_standing", "standings", [{$match:{"teamAbbr":"PHI"}}]
+db.createView("MIL_standing", "standings", [{$match:{"teamAbbr":"MIL"}}]
+db.createView("CHA_standing", "standings", [{$match:{"teamAbbr":"CHA"}}]
+db.createView("TOR_standing", "standings", [{$match:{"teamAbbr":"TOR"}}]
+db.createView("MIA_standing", "standings", [{$match:{"teamAbbr":"MIA"}}]
+db.createView("IND_standing", "standings", [{$match:{"teamAbbr":"IND"}}]
+db.createView("LAC_standing", "standings", [{$match:{"teamAbbr":"LAC"}}]
+db.createView("DEN_standing", "standings", [{$match:{"teamAbbr":"DEN"}}]
+db.createView("GS_standing", "standings", [{$match:{"teamAbbr":"GS"}}]
+db.createView("POR_standing", "standings", [{$match:{"teamAbbr":"POR"}}]
+db.createView("NO_standing", "standings", [{$match:{"teamAbbr":"NO"}}]
+db.createView("MIN_standing", "standings", [{$match:{"teamAbbr":"MIN"}}]
+db.createView("LAL_standing", "standings", [{$match:{"teamAbbr":"LAL"}}]
+db.createView("HOU_standing", "standings", [{$match:{"teamAbbr":"HOU"}}]
+db.createView("OKC_standing", "standings", [{$match:{"teamAbbr":"OKC"}}]
+db.createView("SA_standing", "standings", [{$match:{"teamAbbr":"SA"}}]
+db.createView("UTA_standing", "standings", [{$match:{"teamAbbr":"UTA"}}]
+db.createView("SAC_standing", "standings", [{$match:{"teamAbbr":"SAC"}}]
+db.createView("DAL_standing", "standings", [{$match:{"teamAbbr":"DAL"}}]
+db.createView("MEM_standing", "standings", [{$match:{"teamAbbr":"MEM"}}]
+db.createView("PHO_standing", "standings", [{$match:{"teamAbbr":"PHO"}}]
+
+--teamAbbr, FROM players
+db.createView("CHI_players", "players", [{$match:{"teamAbbr":"CHI"}}]
+db.createView("ATL_players", "players", [{$match:{"teamAbbr":"ATL"}}]
+db.createView("DET_players", "players", [{$match:{"teamAbbr":"DET"}}]
+db.createView("CLE_players", "players", [{$match:{"teamAbbr":"CLE"}}]
+db.createView("NY_players", "players", [{$match:{"teamAbbr":"NY"}}]
+db.createView("ORL_players", "players", [{$match:{"teamAbbr":"ORL"}}]
+db.createView("WAS_players", "players", [{$match:{"teamAbbr":"WAS"}}]
+db.createView("BKN_players", "players", [{$match:{"teamAbbr":"BKN"}}]
+db.createView("BOS_players", "players", [{$match:{"teamAbbr":"BOS"}}]
+db.createView("PHI_players", "players", [{$match:{"teamAbbr":"PHI"}}]
+db.createView("MIL_players", "players", [{$match:{"teamAbbr":"MIL"}}]
+db.createView("CHA_players", "players", [{$match:{"teamAbbr":"CHA"}}]
+db.createView("TOR_players", "players", [{$match:{"teamAbbr":"TOR"}}]
+db.createView("MIA_players", "players", [{$match:{"teamAbbr":"MIA"}}]
+db.createView("IND_players", "players", [{$match:{"teamAbbr":"IND"}}]
+db.createView("LAC_players", "players", [{$match:{"teamAbbr":"LAC"}}]
+db.createView("DEN_players", "players", [{$match:{"teamAbbr":"DEN"}}]
+db.createView("GS_players", "players", [{$match:{"teamAbbr":"GS"}}]
+db.createView("POR_players", "players", [{$match:{"teamAbbr":"POR"}}]
+db.createView("NO_players", "players", [{$match:{"teamAbbr":"NO"}}]
+db.createView("MIN_players", "players", [{$match:{"teamAbbr":"MIN"}}]
+db.createView("LAL_players", "players", [{$match:{"teamAbbr":"LAL"}}]
+db.createView("HOU_players", "players", [{$match:{"teamAbbr":"HOU"}}]
+db.createView("OKC_players", "players", [{$match:{"teamAbbr":"OKC"}}]
+db.createView("SA_players", "players", [{$match:{"teamAbbr":"SA"}}]
+db.createView("UTA_players", "players", [{$match:{"teamAbbr":"UTA"}}]
+db.createView("SAC_players", "players", [{$match:{"teamAbbr":"SAC"}}]
+db.createView("DAL_players", "players", [{$match:{"teamAbbr":"DAL"}}]
+db.createView("MEM_players", "players", [{$match:{"teamAbbr":"MEM"}}]
+db.createView("PHO_players", "players", [{$match:{"teamAbbr":"PHO"}}]
