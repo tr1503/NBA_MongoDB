@@ -217,6 +217,7 @@ var PHO_players = mongoose.model("PHO_players", playerSchema, "PHO_players");
 
 var teamsView = [CHI, ATL, DET, CLE, NY, ORL, WAS, BKN, BOS, PHI, MIL, CHA, TOR, MIA, IND, LAC, DEN, GS, POR, NO, MIN, LAL, HOU, OKC, SA, UTA, SAC, DAL, MEM, PHO];
 var standingView = [CHI_standing, ATL_standing, DET_standing, CLE_standing, NY_standing, ORL_standing, WAS_standing, BKN_standing, BOS_standing, PHI_standing, MIL_standing, CHA_standing, TOR_standing, MIA_standing, IND_standing, LAC_standing, DEN_standing, GS_standing, POR_standing, NO_standing, MIN_standing, LAL_standing, HOU_standing, OKC_standing, SA_standing, UTA_standing, SAC_standing, DAL_standing, MEM_standing, PHO_standing];
+var playerView = [CHI_players, ATL_players, DET_players, CLE_players, NY_players, ORL_players, WAS_players, BKN_players, BOS_players, PHI_players, MIL_players, CHA_players, TOR_players, MIA_players, IND_players, LAC_players, DEN_players, GS_players, POR_players, NO_players, MIN_players, LAL_players, HOU_players, OKC_players, SA_players, UTA_players, SAC_players, DAL_players, MEM_players, PHO_players];
 
 app.get("/", function(req, res) {
     res.render("home");
@@ -244,6 +245,10 @@ app.get("/mongodb/teamPerformance", function(req, res) {
 
 app.get("/mongodb/allStarRank", function(req, res) {
     res.render("allStarRank");
+});
+
+app.get("/mongodb/playerHigestPerformance", function(req, res) {
+    res.render("playerHigestPerformance");
 });
 
 // app.post("/search", function(req, res) {
@@ -287,6 +292,26 @@ app.post("/mongoDB/allStarRankShow", function(req, res) {
                 else
                     res.render("allStarRankShow", {query: query});
             });
+        }
+    }
+});
+
+app.post("/mongoDB/playerHighestPerformanceShow", function(req, res) {
+    var player = req.body.player;
+    var performance = req.body.performance;
+    for (let i = 0; i < teamsView.length; i++) {
+        var team_players = teamsView[i].collection.collectionName + "_players";
+        for (let j = 0; j < playerView.length; j++) {
+            const element = playerView[j].collection.collectionName;
+            if (playerView[j].collection.collectionName == team_players) {
+                playerView[j].find({playDispNm: player}, function(err, query) {
+                    if (err)
+                        console.log(err);
+                    else
+                        res.render("playerHighestPerformanceShow", {query: query, team: team});
+                });
+            }
+            
         }
     }
 });
