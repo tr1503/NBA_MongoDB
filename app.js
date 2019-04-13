@@ -248,7 +248,7 @@ app.get("/mongodb/allStarRank", function(req, res) {
 });
 
 app.get("/mongodb/playerHigestPerformance", function(req, res) {
-    res.render("playerHigestPerformance");
+    res.render("playerHighestPerformance");
 });
 
 // app.post("/search", function(req, res) {
