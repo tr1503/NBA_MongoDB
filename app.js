@@ -259,6 +259,10 @@ app.get("/mongodb/teamBenchAvgTime", function(req, res) {
     res.render("teamBenchAvgTime");
 });
 
+app.get("/mongoDB/teamConfFirst", function(req, res) {
+    res.render("teamConfFirst");
+});
+
 // app.post("/search", function(req, res) {
 //     var team = req.body.team;
 //     for (var i = 0; i < teamsView.length; i++) {
@@ -378,6 +382,29 @@ app.post("/mongodb/teamBenchAvgTime", function(req, res) {
                 }
             })
         }
+    }
+});
+
+app.post("/mongoDB/teamConfFirst", function(req, res) {
+    var conf = req.body.conf;
+    for (let i = 0; i < teamsView.length; i++) {
+        teamsView[i].findOne({}, function(err, query) {
+            if(query.teamConf == conf) {
+                var team_standing = teamsView[i].collection.collectionName + "_standing";
+                for (let j = 0; j < standingView.length; j++) {
+                    if (standingView[j].collection.collectionName == team_standing) {
+                        standingView[j].findOne({stDate: "2018/4/11"}, function(err, query) {
+                            if (err)
+                                console.log(err);
+                            else
+                            if (query.rank == 1) {
+                                res.render("teamConfFirstShow", {query: query})
+                            }
+                        });
+                    }
+                }
+            }
+        })
     }
 });
 
