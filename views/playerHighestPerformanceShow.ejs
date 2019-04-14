@@ -3,12 +3,30 @@
     <table class="table">
         <tr>
             <th>Team</th>
-            <th>Highest Rank</th>
+            <th>gmDate</th>
+            <th>opptAbbr</th>
+            <th>playPTS</th>
+            <th>playAST</th>
+            <th>playTO</th>
+            <th>playSTL</th>
+            <th>playBLK</th>
+            <th>playPF</th>
+            <th>playORB</th>
+            <th>playDRB</th>
         </tr>
         <tr>
             <% query.forEach(function(res) { %>
-                <td><%= res._id %></td>
-                <td><%= res.opptAbbr %></td>
+                <td><%= res.teamAbbr %></td>
+                <td><%= res.gmDate %></td>
+                <td><%= res.opptAbbr%></td>
+                <td><%= res.playPTS%></td>
+                <td><%= res.playAST%></td>
+                <td><%= res.playTO%></td>
+                <td><%= res.playSTL%></td>
+                <td><%= res.playBLK%></td>
+                <td><%= res.playPF%></td>
+                <td><%= res.playORB%></td>
+                <td><%= res.playDRB%></td>
             <% }) %>
         </tr>
     </table>

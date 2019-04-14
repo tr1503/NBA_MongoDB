@@ -308,40 +308,44 @@ app.post("/mongoDB/allStarRankShow", function(req, res) {
     }
 });
 
+/*
+* 6. Input player, specific performance. Output date, against and highest performance.
+*/
 app.post("/mongoDB/playerHighestPerformanceShow", function(req, res) {
     var player = req.body.player;
     var performance = req.body.performance;
-    var max = 0;
-    var date, against, highest;
     for (let i = 0; i < teamsView.length; i++) {
         var team_players = teamsView[i].collection.collectionName + "_players";
         for (let j = 0; j < playerView.length; j++) {
             if (playerView[j].collection.collectionName == team_players) {
-                playerView[j].find({playDispNm: player}, function(err, query) {
-                    for (let index = 0; index < query.length; index++) {
-                        
-                    }
+                // // for playPTS
+                // playerView[j].aggregate([{ $match: { playDispNm: player}}, { $group : { _id: "playPTS", max: { $max : "$playPTS" }}}], function(err, query) {
+                //     if (query.length>0) {
+                //         playerView[j].find({playPTS: query[0].max, playDispNm: player}, function(err, query) {
+                //             if (query.length>0) {
+                //                 res.render("playerHighestPerformanceShow", {query: query, performance: performance});
+                //             }
+                //         })    
+                //     }
+                // })
+                // for playAST
+                playerView[j].aggregate([{ $match: { playDispNm: player}}, { $group : { _id: "playAST", max: { $max : "$playAST" }}}], function(err, query) {
                     if (query.length>0) {
-                        console.log(query[0].performance)
+                        playerView[j].find({playAST: query[0].max, playDispNm: player}, function(err, query) {
+                            if (query.length>0) {
+                                res.render("playerHighestPerformanceShow", {query: query, performance: performance});
+                            }
+                        })    
                     }
-                    // if (err)
-                    //     console.log(err);
-                    // else
-                    //     res.render("playerHighestPerformanceShow", {query: query});
-                    // console.log(query)
                 })
-                // playerView[j].find({playDispNm: player}).limit(1).sort({playPTS:-1}).toArray(function(err, query) {
-                //     if (err)
-                //         console.log(err);
-                //     else
-                //         console.log(query)
-                //         // res.render("playerHighestPerformanceShow", {query: query});
-                //   })
             }
         }
     }
 });
 
+/*
+* 7. Input East/West, Output the first position's team.
+*/
 app.post("/mongoDB/playerStarter", function(req, res) {
     var player = req.body.player;
     for (let i = 0; i < teamsView.length; i++) {
@@ -361,6 +365,9 @@ app.post("/mongoDB/playerStarter", function(req, res) {
     }
 });
 
+/*
+* 8. Input player, output the count of starter.
+*/
 app.post("/mongodb/teamBenchAvgTime", function(req, res) {
     var team = req.body.team;
     var team_players = team + "_players";
@@ -385,6 +392,9 @@ app.post("/mongodb/teamBenchAvgTime", function(req, res) {
     }
 });
 
+/*
+* 9. Input team, output bench player, highest average time.
+*/
 app.post("/mongoDB/teamConfFirst", function(req, res) {
     var conf = req.body.conf;
     for (let i = 0; i < teamsView.length; i++) {
@@ -407,6 +417,11 @@ app.post("/mongoDB/teamConfFirst", function(req, res) {
         })
     }
 });
+
+/*
+* 10. Output all team's average OT's points.
+*/
+
 
 app.listen(3000, function() {
     console.log("NBA Query Server has started!");
