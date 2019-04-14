@@ -1,0 +1,18 @@
+<% include partials/header %>
+<div class="container">
+    <div class="row">
+        <div style="width: 30%; margin: 25px auto;">
+            <form action = "/mongoDB/teamBenchAvgTime" method = "POST">
+                <div class="form-group">
+                    <label for="team">Player Name</label>
+                    <input class="form-control" id="team" type = "text" name = "team" placeholder = "team name" required>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-lg btn-success btn-block">Submit!</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <a href="/mongodb" class="btn btn-primary">Go Back</a>
+</div>
+<% include partials/footer %>

@@ -255,6 +255,10 @@ app.get("/mongodb/playerStarter", function(req, res) {
     res.render("playerStarter");
 });
 
+app.get("/mongodb/teamBenchAvgTime", function(req, res) {
+    res.render("teamBenchAvgTime");
+});
+
 // app.post("/search", function(req, res) {
 //     var team = req.body.team;
 //     for (var i = 0; i < teamsView.length; i++) {
@@ -303,17 +307,24 @@ app.post("/mongoDB/allStarRankShow", function(req, res) {
 app.post("/mongoDB/playerHighestPerformanceShow", function(req, res) {
     var player = req.body.player;
     var performance = req.body.performance;
-    let finished = true
+    var max = 0;
+    var date, against, highest;
     for (let i = 0; i < teamsView.length; i++) {
         var team_players = teamsView[i].collection.collectionName + "_players";
         for (let j = 0; j < playerView.length; j++) {
-            // const element = playerView[j].collection.collectionName;
             if (playerView[j].collection.collectionName == team_players) {
                 playerView[j].find({playDispNm: player}, function(err, query) {
-                    if (err)
-                        console.log(err);
-                    else
-                        res.render("playerHighestPerformanceShow", {query: query});
+                    for (let index = 0; index < query.length; index++) {
+                        
+                    }
+                    if (query.length>0) {
+                        console.log(query[0].performance)
+                    }
+                    // if (err)
+                    //     console.log(err);
+                    // else
+                    //     res.render("playerHighestPerformanceShow", {query: query});
+                    // console.log(query)
                 })
                 // playerView[j].find({playDispNm: player}).limit(1).sort({playPTS:-1}).toArray(function(err, query) {
                 //     if (err)
@@ -342,6 +353,30 @@ app.post("/mongoDB/playerStarter", function(req, res) {
                     }
                 })
             }
+        }
+    }
+});
+
+app.post("/mongodb/teamBenchAvgTime", function(req, res) {
+    var team = req.body.team;
+    var team_players = team + "_players";
+    var playDispNm = '', avgPoint = 0;
+    for (let j = 0; j < playerView.length; j++) {
+        if (playerView[j].collection.collectionName == team_players) {
+            playerView[j].aggregate([{ $match: { playStat: "Bench"}}, { $group: {"_id": "$playDispNm", "avgPoint":{$avg:"$playMin"}}}], function(err, query) {
+            if (err)
+                console.log(err);
+            else
+                {
+                    for (let i = 0; i < query.length; i++) {
+                        if (query[i].avgPoint > avgPoint) {
+                            avgPoint = query[i].avgPoint
+                            playDispNm = query[i]._id
+                        }
+                    }
+                    res.render("teamBenchAvgTimeShow", {avgPoint: avgPoint, playDispNm: playDispNm});
+                }
+            })
         }
     }
 });
