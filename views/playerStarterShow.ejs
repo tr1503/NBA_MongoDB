@@ -2,14 +2,10 @@
 <div class="container">
     <table class="table">
         <tr>
-            <th>Team</th>
-            <th>Highest Rank</th>
+            <th>count of starter</th>
         </tr>
         <tr>
-            <% query.forEach(function(res) { %>
-                <td><%= res._id %></td>
-                <td><%= res.opptAbbr %></td>
-            <% }) %>
+            <td><%=query %></td>
         </tr>
     </table>
     <a href="/mongodb" class="btn btn-primary">Go Back</a>

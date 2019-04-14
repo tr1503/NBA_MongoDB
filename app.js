@@ -251,6 +251,10 @@ app.get("/mongodb/playerHigestPerformance", function(req, res) {
     res.render("playerHighestPerformance");
 });
 
+app.get("/mongodb/playerStarter", function(req, res) {
+    res.render("playerStarter");
+});
+
 // app.post("/search", function(req, res) {
 //     var team = req.body.team;
 //     for (var i = 0; i < teamsView.length; i++) {
@@ -299,19 +303,45 @@ app.post("/mongoDB/allStarRankShow", function(req, res) {
 app.post("/mongoDB/playerHighestPerformanceShow", function(req, res) {
     var player = req.body.player;
     var performance = req.body.performance;
+    let finished = true
     for (let i = 0; i < teamsView.length; i++) {
         var team_players = teamsView[i].collection.collectionName + "_players";
         for (let j = 0; j < playerView.length; j++) {
-            const element = playerView[j].collection.collectionName;
+            // const element = playerView[j].collection.collectionName;
             if (playerView[j].collection.collectionName == team_players) {
                 playerView[j].find({playDispNm: player}, function(err, query) {
                     if (err)
                         console.log(err);
                     else
-                        res.render("playerHighestPerformanceShow", {query: query, team: team});
-                });
+                        res.render("playerHighestPerformanceShow", {query: query});
+                })
+                // playerView[j].find({playDispNm: player}).limit(1).sort({playPTS:-1}).toArray(function(err, query) {
+                //     if (err)
+                //         console.log(err);
+                //     else
+                //         console.log(query)
+                //         // res.render("playerHighestPerformanceShow", {query: query});
+                //   })
             }
-            
+        }
+    }
+});
+
+app.post("/mongoDB/playerStarter", function(req, res) {
+    var player = req.body.player;
+    for (let i = 0; i < teamsView.length; i++) {
+        var team_players = teamsView[i].collection.collectionName + "_players";
+        for (let j = 0; j < playerView.length; j++) {
+            if (playerView[j].collection.collectionName == team_players) {
+                playerView[j].count({ $and: [ { playDispNm: player }, { playStat: "Starter"} ]}, function(err, query) {
+                if (err)
+                    console.log(err);
+                else
+                    if (query > 0) {
+                        res.render("playerStarterShow", {query: query});
+                    }
+                })
+            }
         }
     }
 });
