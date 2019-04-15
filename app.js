@@ -263,6 +263,10 @@ app.get("/mongoDB/teamConfFirst", function(req, res) {
     res.render("teamConfFirst");
 });
 
+app.get("/mongoDB/teamAvgOT", function(req, res) {
+    res.render("teamAvgOT");
+});
+
 // app.post("/search", function(req, res) {
 //     var team = req.body.team;
 //     for (var i = 0; i < teamsView.length; i++) {
@@ -318,20 +322,12 @@ app.post("/mongoDB/playerHighestPerformanceShow", function(req, res) {
         var team_players = teamsView[i].collection.collectionName + "_players";
         for (let j = 0; j < playerView.length; j++) {
             if (playerView[j].collection.collectionName == team_players) {
-                // // for playPTS
-                // playerView[j].aggregate([{ $match: { playDispNm: player}}, { $group : { _id: "playPTS", max: { $max : "$playPTS" }}}], function(err, query) {
-                //     if (query.length>0) {
-                //         playerView[j].find({playPTS: query[0].max, playDispNm: player}, function(err, query) {
-                //             if (query.length>0) {
-                //                 res.render("playerHighestPerformanceShow", {query: query, performance: performance});
-                //             }
-                //         })    
-                //     }
-                // })
-                // for playAST
-                playerView[j].aggregate([{ $match: { playDispNm: player}}, { $group : { _id: "playAST", max: { $max : "$playAST" }}}], function(err, query) {
+                playerView[j].aggregate([{ $match: { playDispNm: player}}, { $group : { _id: performance, max: { $max : "$" + performance }}}], function(err, query) {
                     if (query.length>0) {
-                        playerView[j].find({playAST: query[0].max, playDispNm: player}, function(err, query) {
+                        playerView[j].find({[performance]: query[0].max, playDispNm: player}, function(err, query) {
+                            if (err)
+                                console.log(err);
+                            else
                             if (query.length>0) {
                                 res.render("playerHighestPerformanceShow", {query: query, performance: performance});
                             }
@@ -421,7 +417,34 @@ app.post("/mongoDB/teamConfFirst", function(req, res) {
 /*
 * 10. Output all team's average OT's points.
 */
-
+app.post("/mongoDB/teamAvgOT", function(req, res) {
+    let totalPoints = {}
+    let total = 2419
+    for (let i = 0; i < teamsView.length; i++) {
+        totalPoints[teamsView[i].collection.collectionName] = 0
+    }
+    for (let j = 0; j < teamsView.length; j++) {
+        teamsView[j].find({}, function(err, query) {
+            if (err)
+                console.log(err);
+            else
+            for (let i = 0; i < query.length; i++) {
+                let element = query[i]
+                totalPoints[element.teamAbbr] += element.teamPTS5 + element.teamPTS6 + element.teamPTS7 + element.teamPTS8
+                totalPoints[element.opptAbbr] += element.opptPTS5 + element.opptPTS6 + element.opptPTS7 + element.opptPTS8
+                total--;
+            }
+            if(total == 0) {
+                let results = {}
+                for (let i = 0; i < teamsView.length; i++) {
+                    let team = teamsView[i].collection.collectionName;
+                    results[team] = totalPoints[team]/82
+                }
+                res.render("teamAvgOTShow", {query: results})
+            }
+        })
+    }
+});
 
 app.listen(3000, function() {
     console.log("NBA Query Server has started!");
