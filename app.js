@@ -40,6 +40,7 @@ var playerSchema = new mongoose.Schema({
 });
 
 var teamSchema = new mongoose.Schema({
+    standing: {type: mongoose.Schema.Types.ObjectId, ref: "standing"},
     gmDate: String,
     offLNm3: String,
     offFNm3: String,
@@ -104,6 +105,7 @@ var teamSchema = new mongoose.Schema({
 var standingSchema = new mongoose.Schema({
     stDate: String,
     teamAbbr: String,
+    // team: {type: mongoose.Schema.Types.ObjectId, ref: "team"},
     rank: Number,
     rankOrd: String,
     gameWon: Number,
@@ -264,6 +266,34 @@ app.get("/mongodb/playerHigestPerformance", function(req, res) {
 //         }
 //     }
 // });
+
+app.post("/mongoDB/dateStandingShow", function(req, res) {
+    var conf = req.body.conf;
+    var rank = req.body.rank;
+    if (conf == "East") {
+        Team.find({teamConf: "East"}).
+                 populate({
+                    path: "standing",
+                    match: {rank: Number(rank)},
+                    select: "teamAbbr stDate rank -_id" 
+                 }).
+                 exec(function(err, query) {
+                    // res.render("dataStandingShow", {query: query});
+                    res.json(query);
+                 });
+    } else {
+        Team.find({teamConf: "West"}).
+                 populate({
+                    path: "standing",
+                    match: {rank: Number(rank)},
+                    select: "teamAbbr stDate rank -_id"
+                 }).
+                 exec(function(err, query) {
+                    // res.render("dataStandingShow", {query: query});
+                    res.json(query);
+                 });
+    }
+});
 
 app.post("/mongoDB/teamPerformanceSearch", function(req, res) {
     var team = req.body.team;
