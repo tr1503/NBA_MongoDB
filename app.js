@@ -40,7 +40,7 @@ var playerSchema = new mongoose.Schema({
 });
 
 var teamSchema = new mongoose.Schema({
-    standing: {type: mongoose.Schema.Types.ObjectId, ref: "standing"},
+    standing: [{type: mongoose.Schema.ObjectId, ref: "standing"}],
     gmDate: String,
     offLNm3: String,
     offFNm3: String,
@@ -105,7 +105,6 @@ var teamSchema = new mongoose.Schema({
 var standingSchema = new mongoose.Schema({
     stDate: String,
     teamAbbr: String,
-    // team: {type: mongoose.Schema.Types.ObjectId, ref: "team"},
     rank: Number,
     rankOrd: String,
     gameWon: Number,
@@ -117,9 +116,9 @@ var standingSchema = new mongoose.Schema({
     awayLoss: Number
 });
 
-var Player = mongoose.model("player", playerSchema);
-var Team = mongoose.model("team", teamSchema);
-var Standing = mongoose.model("standing", standingSchema);
+var Player = mongoose.model("player", playerSchema, "players");
+var Team = mongoose.model("team", teamSchema, "teams");
+var Standing = mongoose.model("standing", standingSchema, "standings");
 var East_Conf = mongoose.model("East_Conf", teamSchema, "East_Confs");
 var West_Conf = mongoose.model("West_Conf",teamSchema, "West_Confs");
 
@@ -268,7 +267,6 @@ app.get("/mongoDB/teamConfFirst", function(req, res) {
 app.get("/mongoDB/teamAvgOT", function(req, res) {
     res.render("teamAvgOT");
 });
-
 // app.post("/search", function(req, res) {
 //     var team = req.body.team;
 //     for (var i = 0; i < teamsView.length; i++) {
@@ -287,16 +285,9 @@ app.post("/mongoDB/dateStandingShow", function(req, res) {
     var conf = req.body.conf;
     var rank = req.body.rank;
     if (conf == "East") {
-        Team.find({teamConf: "East"}).
-                 populate({
-                    path: "standing",
-                    match: {rank: Number(rank)},
-                    select: "teamAbbr stDate rank -_id" 
-                 }).
-                 exec(function(err, query) {
-                    // res.render("dataStandingShow", {query: query});
-                    res.json(query);
-                 });
+        Team.find({teamConf: "East"}).populate("standing").exec(function(err, query) {
+            res.json(query.standing);
+        });
     } else {
         Team.find({teamConf: "West"}).
                  populate({
@@ -314,13 +305,14 @@ app.post("/mongoDB/dateStandingShow", function(req, res) {
 app.post("/mongoDB/teamPerformanceSearch", function(req, res) {
     var team = req.body.team;
     var date = req.body.date;
+    var performance = req.body.performance;
     for (var i = 0; i < teamsView.length; i++) {
         if (teamsView[i].collection.collectionName == team) {
-            teamsView[i].find({gmDate: date}, function(err, query) {
+            teamsView[i].find({gmDate: date},function(err, query) {
                 if (err)
                     console.log(err);
                 else
-                    res.render("teamPerformanceShow", {query: query, team: team});
+                    res.render("teamPerformanceShow", {query: query, team: team, performance: performance});
             });
         }
     }
@@ -363,13 +355,13 @@ app.post("/mongoDB/playerHighestPerformanceShow", function(req, res) {
                             }
                         })    
                     }
-                })
-            }
+                });
+            }          
         }
     }
 });
 
-/*
+-/*
 * 7. Input East/West, Output the first position's team.
 */
 app.post("/mongoDB/playerStarter", function(req, res) {
@@ -475,6 +467,7 @@ app.post("/mongoDB/teamAvgOT", function(req, res) {
         })
     }
 });
+
 
 app.listen(3000, function() {
     console.log("NBA Query Server has started!");

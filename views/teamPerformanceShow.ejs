@@ -7,22 +7,7 @@
             <th>Team</th>
             <th>Result</th>
             <th>Opponent</th>
-            <th>Points</th>
-            <th>Assist</th>
-            <th>Turnover</th>
-            <th>Steal</th>
-            <th>Block</th>
-            <th>Fouls</th>
-            <th>Field Goal Attempts</th>
-            <th>Field Goal Shots</th>
-            <th>Two Point Attempts</th>
-            <th>Two Point Shots</th>
-            <th>Three Point Attempts</th>
-            <th>Three Point Shots</th>
-            <th>Free Throw Attempts</th>
-            <th>Free Throw Shots</th>
-            <th>Offensive rebounds</th>
-            <th>Defensive rebounds</th>
+            <th><%= performance %></th>
         </tr>
         <tr>
             <% query.forEach(function(res) { 
@@ -31,44 +16,108 @@
                     <td><%= res.teamAbbr %></td>
                     <td><%= res.teamRslt %></td>
                     <td><%= res.opptAbbr %></td>
-                    <td><%= res.teamPTS %></td>
-                    <td><%= res.teamAST %></td>
-                    <td><%= res.teamTO %></td>
-                    <td><%= res.teamSTL %></td>
-                    <td><%= res.teamBLK %></td>
-                    <td><%= res.teamPF %></td>
-                    <td><%= res.teamFGA %></td>
-                    <td><%= res.teamFGM %></td>
-                    <td><%= res.team2PA %></td>
-                    <td><%= res.team2PM %></td>
-                    <td><%= res.team3PA %></td>
-                    <td><%= res.team3PM %></td>
-                    <td><%= res.teamFTA %></td>
-                    <td><%= res.teamFTM %></td>
-                    <td><%= res.teamORB %></td>
-                    <td><%= res.teamDRB %></td>
+                    <% if (performance == "PTS") {%>
+                        <td><%= res.teamPTS %></td>
+                    <%}%>
+                    <%if (performance == "AST") {%> 
+                        <td><%= res.teamAST %></td>
+                    <%}%>
+                    <%if (performance == "TO") {%> 
+                        <td><%= res.teamTO %></td>
+                    <%}%>
+                    <%if (performance == "STL") {%> 
+                        <td><%=res.teamSTL%></td>
+                    <%}%>
+                    <%if (performance == "BLK") {%> 
+                        <td><%=res.teamBLK%></td>
+                    <%}%>
+                    <%if (performance == "PF") {%> 
+                        <td><%=res.teamPF%></td>   
+                    <%}%>                 
+                    <%if (performance == "FGA") {%> 
+                        <td><%=res.teamFGA%></td>
+                    <%}%>
+                    <%if (performance == "FGM") {%> 
+                        <td><%=res.teamFGM%></td>
+                    <%}%>
+                    <%if (performance == "2PA") {%> 
+                        <td><%=res.team2PA%></td>
+                    <%}%>
+                    <%if (performance == "2PM") {%> 
+                        <td><%=res.team2PM%></td>
+                    <%}%>
+                    <%if (performance == "3PA") {%> 
+                        <td><%=res.team3PA%></td>
+                    <%}%>
+                    <%if (performance == "3PM") {%> 
+                        <td><%=res.team3PM%></td>
+                    <%}%>
+                    <%if (performance == "FTA") {%> 
+                        <td><%=res.teamFTA%></td>
+                    <%}%>
+                    <%if (performance == "FTM") {%> 
+                        <td><%=res.teamFTM%></td>
+                    <%}%>
+                    <%if (performance == "ORB") {%> 
+                        <td><%=res.teamORB%></td>
+                    <%}%>
+                    <%if (performance == "DRB") {%> 
+                        <td><%=res.teamDRB%></td> 
+                    <%}%>
                 <% }  
                 else {%>
                     <td><%= res.gmDate %></td>
                     <td><%= res.opptAbbr %></td>
                     <td><%= res.opptRslt %></td>
                     <td><%= res.teamAbbr %></td>
-                    <td><%= res.opptPTS %></td>
-                    <td><%= res.opptAST %></td>
-                    <td><%= res.opptTO %></td>
-                    <td><%= res.opptSTL %></td>
-                    <td><%= res.opptBLK %></td>
-                    <td><%= res.opptPF %></td>
-                    <td><%= res.opptFGA %></td>
-                    <td><%= res.opptFGM %></td>
-                    <td><%= res.oppt2PA %></td>
-                    <td><%= res.oppt2PM %></td>
-                    <td><%= res.oppt3PA %></td>
-                    <td><%= res.oppt3PM %></td>
-                    <td><%= res.opptFTA %></td>
-                    <td><%= res.opptFTM %></td>
-                    <td><%= res.opptORB %></td>
-                    <td><%= res.opptDRB %></td>
+                    <% if (performance == "PTS") {%>
+                        <td><%= res.opptPTS %></td>
+                    <%}%>
+                    <%if (performance == "AST") {%> 
+                        <td><%= res.opptAST %></td>
+                    <%}%>
+                    <%if (performance == "TO"){%> 
+                        <td><%= res.opptTO %></td>
+                    <%}%>
+                    <%if (performance == "STL") {%> 
+                        <td><%=res.opptSTL%></td>
+                    <%}%>
+                    <%if (performance == "BLK") {%> 
+                        <td><%=res.opptBLK%></td>
+                    <%}%>
+                    <%if (performance == "PF") {%> 
+                        <td><%=res.opptPF%></td> 
+                    <%}%>                   
+                    <%if (performance == "FGA") {%> 
+                        <td><%=res.opptFGA%></td>
+                    <%}%>
+                    <%if (performance == "FGM") {%> 
+                        <td><%=res.opptFGM%></td>
+                    <%}%>
+                    <%if (performance == "2PA") {%> 
+                        <td><%=res.oppt2PA%></td>
+                    <%}%>
+                    <%if (performance == "2PM") {%> 
+                        <td><%=res.oppt2PM%></td>
+                    <%}%>
+                    <%if (performance == "3PA") {%> 
+                        <td><%=res.oppt3PA%></td>
+                    <%}%>
+                    <%if (performance == "3PM") {%> 
+                        <td><%=res.oppt3PM%></td>
+                    <%}%>
+                    <%if (performance == "FTA") {%> 
+                        <td><%=res.opptFTA%></td>
+                    <%}%>
+                    <%if (performance == "FTM") {%> 
+                        <td><%=res.opptFTM%></td>
+                    <%}%>
+                    <%if (performance == "ORB") {%> 
+                        <td><%=res.opptORB%></td>
+                    <%}%>
+                    <%if (performance == "DRB") {%> 
+                        <td><%=res.opptDRB%></td> 
+                    <%}%>
                 <% }
             }) %>
         </tr>
