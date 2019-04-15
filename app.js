@@ -253,6 +253,18 @@ app.get("/mongodb/playerHigestPerformance", function(req, res) {
     res.render("playerHighestPerformance");
 });
 
+app.get("/mongodb/playerStarter", function(req, res) {
+    res.render("playerStarter");
+});
+
+app.get("/mongodb/teamBenchAvgTime", function(req, res) {
+    res.render("teamBenchAvgTime");
+});
+
+app.get("/mongoDB/teamConfFirst", function(req, res) {
+    res.render("teamConfFirst");
+});
+
 // app.post("/search", function(req, res) {
 //     var team = req.body.team;
 //     for (var i = 0; i < teamsView.length; i++) {
@@ -326,25 +338,120 @@ app.post("/mongoDB/allStarRankShow", function(req, res) {
     }
 });
 
+/*
+* 6. Input player, specific performance. Output date, against and highest performance.
+*/
 app.post("/mongoDB/playerHighestPerformanceShow", function(req, res) {
     var player = req.body.player;
     var performance = req.body.performance;
     for (let i = 0; i < teamsView.length; i++) {
         var team_players = teamsView[i].collection.collectionName + "_players";
         for (let j = 0; j < playerView.length; j++) {
-            const element = playerView[j].collection.collectionName;
             if (playerView[j].collection.collectionName == team_players) {
-                playerView[j].find({playDispNm: player}, function(err, query) {
-                    if (err)
-                        console.log(err);
-                    else
-                        res.render("playerHighestPerformanceShow", {query: query, team: team});
-                });
+                // // for playPTS
+                // playerView[j].aggregate([{ $match: { playDispNm: player}}, { $group : { _id: "playPTS", max: { $max : "$playPTS" }}}], function(err, query) {
+                //     if (query.length>0) {
+                //         playerView[j].find({playPTS: query[0].max, playDispNm: player}, function(err, query) {
+                //             if (query.length>0) {
+                //                 res.render("playerHighestPerformanceShow", {query: query, performance: performance});
+                //             }
+                //         })    
+                //     }
+                // })
+                // for playAST
+                playerView[j].aggregate([{ $match: { playDispNm: player}}, { $group : { _id: "playAST", max: { $max : "$playAST" }}}], function(err, query) {
+                    if (query.length>0) {
+                        playerView[j].find({playAST: query[0].max, playDispNm: player}, function(err, query) {
+                            if (query.length>0) {
+                                res.render("playerHighestPerformanceShow", {query: query, performance: performance});
+                            }
+                        })    
+                    }
+                })
             }
-            
         }
     }
 });
+
+/*
+* 7. Input East/West, Output the first position's team.
+*/
+app.post("/mongoDB/playerStarter", function(req, res) {
+    var player = req.body.player;
+    for (let i = 0; i < teamsView.length; i++) {
+        var team_players = teamsView[i].collection.collectionName + "_players";
+        for (let j = 0; j < playerView.length; j++) {
+            if (playerView[j].collection.collectionName == team_players) {
+                playerView[j].count({ $and: [ { playDispNm: player }, { playStat: "Starter"} ]}, function(err, query) {
+                if (err)
+                    console.log(err);
+                else
+                    if (query > 0) {
+                        res.render("playerStarterShow", {query: query});
+                    }
+                })
+            }
+        }
+    }
+});
+
+/*
+* 8. Input player, output the count of starter.
+*/
+app.post("/mongodb/teamBenchAvgTime", function(req, res) {
+    var team = req.body.team;
+    var team_players = team + "_players";
+    var playDispNm = '', avgPoint = 0;
+    for (let j = 0; j < playerView.length; j++) {
+        if (playerView[j].collection.collectionName == team_players) {
+            playerView[j].aggregate([{ $match: { playStat: "Bench"}}, { $group: {"_id": "$playDispNm", "avgPoint":{$avg:"$playMin"}}}], function(err, query) {
+            if (err)
+                console.log(err);
+            else
+                {
+                    for (let i = 0; i < query.length; i++) {
+                        if (query[i].avgPoint > avgPoint) {
+                            avgPoint = query[i].avgPoint
+                            playDispNm = query[i]._id
+                        }
+                    }
+                    res.render("teamBenchAvgTimeShow", {avgPoint: avgPoint, playDispNm: playDispNm});
+                }
+            })
+        }
+    }
+});
+
+/*
+* 9. Input team, output bench player, highest average time.
+*/
+app.post("/mongoDB/teamConfFirst", function(req, res) {
+    var conf = req.body.conf;
+    for (let i = 0; i < teamsView.length; i++) {
+        teamsView[i].findOne({}, function(err, query) {
+            if(query.teamConf == conf) {
+                var team_standing = teamsView[i].collection.collectionName + "_standing";
+                for (let j = 0; j < standingView.length; j++) {
+                    if (standingView[j].collection.collectionName == team_standing) {
+                        standingView[j].findOne({stDate: "2018/4/11"}, function(err, query) {
+                            if (err)
+                                console.log(err);
+                            else
+                            if (query.rank == 1) {
+                                res.render("teamConfFirstShow", {query: query})
+                            }
+                        });
+                    }
+                }
+            }
+        })
+    }
+});
+
+/*
+* 10. Output all team's average OT's points.
+*/
+
 
 app.listen(3000, function() {
     console.log("NBA Query Server has started!");

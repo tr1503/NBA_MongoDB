@@ -10,3 +10,4 @@ This is query part.
 <p>8. Input player, output the count of starter.</p>
 <p>9. Input team, output bench player, highest average time</p>
 <p>10. Output all team's average OT's points.</p>
+<p>11. Input player name, output weekly/monthly/seasonal average points</p>
