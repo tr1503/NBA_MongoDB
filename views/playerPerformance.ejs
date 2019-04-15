@@ -2,7 +2,7 @@
 <div class="container">
     <div class="row">
         <div style="width: 30%; margin: 25px auto;">
-            <form action = "/mongoDB/playerPerformanceSearch" method = "POST">
+            <form action = "/mongoDB/playerPerformanceShow" method = "POST">
                 <div class="form-group">
                     <label for="player">Player Name</label>
                     <input class="form-control" id="player" type = "text" name = "player" placeholder = "player name">
@@ -47,6 +47,27 @@
                     <select name="result" id="resultSelect" class="selectpicker show-menu-arrow form-control">
                         <option value="Win">Win</option>
                         <option value="Loss">Loss</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="performanceSelect">Performance</label>
+                    <select name="performance" id="performanceSelect" class="selectpicker show-menu-arrow form-control">
+                        <option value="playPTS">Points</option>
+                        <option value="playAST">Assist</option>
+                        <option value="playTO">Turnover</option>
+                        <option value="playSTL">Steal</option>
+                        <option value="playBLK">Block</option>
+                        <option value="playPF">Fouls</option>
+                        <option value="playFGA">Field Goal Attempts</option>
+                        <option value="playFGM">Field Goal Shots</option>
+                        <option value="play2PA">Two Point Attempts</option>
+                        <option value="play2PM">Two Point Shots</option>
+                        <option value="play3PA">Three Point Attempts</option>
+                        <option value="play3PM">Three Point Shots</option>
+                        <option value="playFTA">Free Throw Attempts</option>
+                        <option value="playFTM">Free Throw Shots</option>
+                        <option value="playORB">Offensive rebounds</option>
+                        <option value="playDRB">Defensive rebounds</option>
                     </select>
                 </div>
                 <div class="form-group">

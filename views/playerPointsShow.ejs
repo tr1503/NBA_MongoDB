@@ -2,15 +2,17 @@
 <div class="container">
     <table class="table">
         <tr>
-            <th>Date</th>
-            <th>Team</th>
-            <th>Rank</th>
+            <th><%= time %></th>
+            <th>Player</th>
+            <th>Average Points</th>
         </tr>
         <% query.forEach(function(res) {%>
             <tr>
-                <td><%= res.stDate %></td>
-                <td><%= res.teamAbbr %></td>
-                <td><%= res.rank %></td>
+                <% if (time != "season") {%>
+                    <td><%= res._id %></td>
+                <% } %>
+                <td><%= player %></td>
+                <td><%= res. %></td>
             </tr>
         <%})%>
     </table>

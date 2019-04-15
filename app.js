@@ -40,7 +40,6 @@ var playerSchema = new mongoose.Schema({
 });
 
 var teamSchema = new mongoose.Schema({
-    standing: [{type: mongoose.Schema.ObjectId, ref: "standing"}],
     gmDate: String,
     offLNm3: String,
     offFNm3: String,
@@ -116,9 +115,9 @@ var standingSchema = new mongoose.Schema({
     awayLoss: Number
 });
 
-var Player = mongoose.model("player", playerSchema, "players");
-var Team = mongoose.model("team", teamSchema, "teams");
-var Standing = mongoose.model("standing", standingSchema, "standings");
+var Player = mongoose.model("player", playerSchema);
+var Team = mongoose.model("team", teamSchema);
+var Standing = mongoose.model("standing", standingSchema);
 var East_Conf = mongoose.model("East_Conf", teamSchema, "East_Confs");
 var West_Conf = mongoose.model("West_Conf",teamSchema, "West_Confs");
 
@@ -267,6 +266,10 @@ app.get("/mongoDB/teamConfFirst", function(req, res) {
 app.get("/mongoDB/teamAvgOT", function(req, res) {
     res.render("teamAvgOT");
 });
+
+app.get("/mongoDB/playerPoints", function(req, res) {
+    res.render("playerPoints");
+});
 // app.post("/search", function(req, res) {
 //     var team = req.body.team;
 //     for (var i = 0; i < teamsView.length; i++) {
@@ -282,27 +285,32 @@ app.get("/mongoDB/teamAvgOT", function(req, res) {
 // });
 
 app.post("/mongoDB/dateStandingShow", function(req, res) {
-    var conf = req.body.conf;
     var rank = req.body.rank;
-    if (conf == "East") {
-        Team.find({teamConf: "East"}).populate("standing").exec(function(err, query) {
-            res.json(query.standing);
-        });
-    } else {
-        Team.find({teamConf: "West"}).
-                 populate({
-                    path: "standing",
-                    match: {rank: Number(rank)},
-                    select: "teamAbbr stDate rank -_id"
-                 }).
-                 exec(function(err, query) {
-                    // res.render("dataStandingShow", {query: query});
-                    res.json(query);
-                 });
-    }
+    Standing.find({rank: Number(rank)}, "stDate teamAbbr rank", function(err, query) {
+        if (err)
+            console.log(err);
+        else
+            res.render("dateStandingShow", {query: query});
+    });
 });
 
-app.post("/mongoDB/teamPerformanceSearch", function(req, res) {
+app.post("/mongoDB/playerPerformanceShow", function(req, res) {
+    var player = req.body.player;
+    var opponent = req.body.team;
+    var result = req.body.result;
+    var performance = req.body.performance;
+    Player.find({playDispNm: player, opptAbbr: opponent, teamRslt: result}, function(err, query) {
+        res.render("playerPerformanceShow",{query: query, performance: performance});
+    });
+});
+
+app.post("/mongoDB/playerContributionShow", function(req, res) {
+    var player = req.body.player;
+    var rank = req.body.rank;
+    var performance = req.body.performance;
+});
+
+app.post("/mongoDB/teamPerformanceShow", function(req, res) {
     var team = req.body.team;
     var date = req.body.date;
     var performance = req.body.performance;
@@ -321,7 +329,7 @@ app.post("/mongoDB/teamPerformanceSearch", function(req, res) {
 app.post("/mongoDB/allStarRankShow", function(req, res) {
     var team = req.body.team;
     var standing = team + "_standing";
-    var date = "2018/2/19";
+    var date = "2018/2/22";
     for (var i = 0; i < standingView.length; i++) {
         if (standingView[i].collection.collectionName == standing) {
             standingView[i].aggregate([{$match: {"stDate": {$gt: new Date(date).toISOString()}}}, {$group: {_id: "$teamAbbr", highestRank: {$min: "$rank"}}}], function(err, query) {
@@ -439,7 +447,7 @@ app.post("/mongoDB/teamConfFirst", function(req, res) {
 /*
 * 10. Output all team's average OT's points.
 */
-app.post("/mongoDB/teamAvgOT", function(req, res) {
+app.post("/mongoDB/teamAvgOTShow", function(req, res) {
     let totalPoints = {}
     let total = 2419
     for (let i = 0; i < teamsView.length; i++) {
@@ -468,6 +476,68 @@ app.post("/mongoDB/teamAvgOT", function(req, res) {
     }
 });
 
+/*
+* 11. Output player's weekly/monthly/seasonal points.
+*/
+
+app.post("/mongoDB/playerPointsShow", function(req, res) {
+    var player = req.body.player;
+    var time = req.body.time;
+    if (time == "week") {
+        Player.aggregate([
+            {$match: 
+                {"playDispNm": player}
+            },
+            {$project: 
+                {"week": 
+                    {$week: {$dateFromString: {
+                        dateString: "$gmDate"
+                    }}},
+                "playPTS": 1}
+            },
+            {$group: 
+                {_id: "$week","weeklyPoints": {$avg: "$playPTS"}
+            }}], function(err, query) {
+            if (err)
+                console.log(err)
+            else
+                res.render("playerPointsShow",{query: query, player: player, time: time});
+        });
+    } else if (time == "month") {
+        Player.aggregate([
+            {$match: 
+                {"playDispNm": player}
+            },
+            {$project: 
+                {"month": 
+                    {$month: {$dateFromString: {
+                        dateString: "$gmDate"
+                    }}},
+                "playPTS": 1}
+            },
+            {$group: 
+                {_id: "$month","monthlyPoints": {$avg: "$playPTS"}
+            }}], function(err, query) {
+            if (err)
+                console.log(err)
+            else
+                res.render("playerPointsShow",{query: query, player: player, time: time});
+        });
+    } else {
+        Player.aggregate([
+            {$match: 
+                {"playDispNm": player}
+            },
+            {$group: 
+                {_id: "$playDispNm","SeasonalPoints": {$avg: "$playPTS"}
+            }}], function(err, query) {
+            if (err)
+                console.log(err)
+            else
+                res.render("playerPointsShow",{query: query, player: player, time: time});
+        });
+    }
+});
 
 app.listen(3000, function() {
     console.log("NBA Query Server has started!");
