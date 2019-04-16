@@ -37,6 +37,7 @@ var playerSchema = new mongoose.Schema({
     playORB: Number,
     playDRB: Number,
     opptAbbr: String
+    // team[{ type: Schema.Types.ObjectId, ref: 'Story' }]
 });
 
 var teamSchema = new mongoose.Schema({
@@ -219,6 +220,7 @@ var teamsView = [CHI, ATL, DET, CLE, NY, ORL, WAS, BKN, BOS, PHI, MIL, CHA, TOR,
 var standingView = [CHI_standing, ATL_standing, DET_standing, CLE_standing, NY_standing, ORL_standing, WAS_standing, BKN_standing, BOS_standing, PHI_standing, MIL_standing, CHA_standing, TOR_standing, MIA_standing, IND_standing, LAC_standing, DEN_standing, GS_standing, POR_standing, NO_standing, MIN_standing, LAL_standing, HOU_standing, OKC_standing, SA_standing, UTA_standing, SAC_standing, DAL_standing, MEM_standing, PHO_standing];
 var playerView = [CHI_players, ATL_players, DET_players, CLE_players, NY_players, ORL_players, WAS_players, BKN_players, BOS_players, PHI_players, MIL_players, CHA_players, TOR_players, MIA_players, IND_players, LAC_players, DEN_players, GS_players, POR_players, NO_players, MIN_players, LAL_players, HOU_players, OKC_players, SA_players, UTA_players, SAC_players, DAL_players, MEM_players, PHO_players];
 
+// All res.render(...) are ejs parts
 app.get("/", function(req, res) {
     res.render("home");
 });
@@ -227,64 +229,55 @@ app.get("/mongodb", function(req, res) {
     res.render("index");
 });
 
-app.get("/mongodb/dateStanding", function(req, res) {
+app.get("/mongodb/query1", function(req, res) {
     res.render("dateStanding");
 });
 
-app.get("/mongodb/playerPerformance", function(req, res) {
+app.get("/mongodb/query2", function(req, res) {
     res.render("playerPerformance");
 });
 
-app.get("/mongodb/playerContribution", function(req, res) {
+app.get("/mongodb/query3", function(req, res) {
     res.render("playerContribution");
 });
 
-app.get("/mongodb/teamPerformance", function(req, res) {
+app.get("/mongodb/query4", function(req, res) {
     res.render("teamPerformance");
 });
 
-app.get("/mongodb/allStarRank", function(req, res) {
+app.get("/mongodb/query5", function(req, res) {
     res.render("allStarRank");
 });
 
-app.get("/mongodb/playerHigestPerformance", function(req, res) {
+app.get("/mongodb/query6", function(req, res) {
     res.render("playerHighestPerformance");
 });
 
-app.get("/mongodb/playerStarter", function(req, res) {
-    res.render("playerStarter");
-});
-
-app.get("/mongodb/teamBenchAvgTime", function(req, res) {
-    res.render("teamBenchAvgTime");
-});
-
-app.get("/mongoDB/teamConfFirst", function(req, res) {
+app.get("/mongoDB/query7", function(req, res) {
     res.render("teamConfFirst");
 });
 
-app.get("/mongoDB/teamAvgOT", function(req, res) {
+app.get("/mongodb/query8", function(req, res) {
+    res.render("playerStarter");
+});
+
+app.get("/mongodb/query9", function(req, res) {
+    res.render("teamBenchAvgTime");
+});
+
+app.get("/mongoDB/query10", function(req, res) {
     res.render("teamAvgOT");
 });
 
-app.get("/mongoDB/playerPoints", function(req, res) {
+app.get("/mongoDB/query11", function(req, res) {
     res.render("playerPoints");
 });
-// app.post("/search", function(req, res) {
-//     var team = req.body.team;
-//     for (var i = 0; i < teamsView.length; i++) {
-//         if (teamsView[i].collection.collectionName == team) {
-//             teamsView[i].aggregate([{$group: {_id: "$teamAbbr", avgPoints: {$avg: "$teamPTS"}}}], function(err, query) {
-//                 if (err)
-//                     console.log(err);
-//                 else
-//                     res.render("show", {query: query});
-//             });
-//         }
-//     }
-// });
 
-app.post("/mongoDB/dateStandingShow", function(req, res) {
+/*
+* 1.Input rank, relactive team and time they get the rank.
+*/
+
+app.post("/mongoDB/query1Show", function(req, res) {
     var rank = req.body.rank;
     Standing.find({rank: Number(rank)}, "stDate teamAbbr rank", function(err, query) {
         if (err)
@@ -294,7 +287,10 @@ app.post("/mongoDB/dateStandingShow", function(req, res) {
     });
 });
 
-app.post("/mongoDB/playerPerformanceShow", function(req, res) {
+/* 
+* 2.Input player name, against and result (against and result could be nothing). Output player performance.
+*/
+app.post("/mongoDB/query2Show", function(req, res) {
     var player = req.body.player;
     var opponent = req.body.team;
     var result = req.body.result;
@@ -304,7 +300,10 @@ app.post("/mongoDB/playerPerformanceShow", function(req, res) {
     });
 });
 
-app.post("/mongoDB/playerContributionShow", function(req, res) {
+/*
+* 3.Input player, rank, specific performance, output player's performance
+*/
+app.post("/mongoDB/query3Show", function(req, res) {
     var player = req.body.player;
     var rank = req.body.rank;
     var performance = req.body.performance;
@@ -321,7 +320,10 @@ app.post("/mongoDB/playerContributionShow", function(req, res) {
     });
 });
 
-app.post("/mongoDB/teamPerformanceShow", function(req, res) {
+/*
+* 4.Input team, date, ouptput team's performance (no matches, none).
+*/
+app.post("/mongoDB/query4Show", function(req, res) {
     var team = req.body.team;
     var date = req.body.date;
     var performance = req.body.performance;
@@ -337,7 +339,10 @@ app.post("/mongoDB/teamPerformanceShow", function(req, res) {
     }
 });
 
-app.post("/mongoDB/allStarRankShow", function(req, res) {
+/*
+* 5. Input all star's date (set in the backend), output team's highest rank and date
+*/
+app.post("/mongoDB/query5Show", function(req, res) {
     var team = req.body.team;
     var standing = team + "_standing";
     var date = "2018/2/22";
@@ -356,56 +361,42 @@ app.post("/mongoDB/allStarRankShow", function(req, res) {
 /*
 * 6. Input player, specific performance. Output date, against and highest performance.
 */
-app.post("/mongoDB/playerHighestPerformanceShow", function(req, res) {
+app.post("/mongoDB/query6Show", function(req, res) {
     var player = req.body.player;
     var performance = req.body.performance;
-    for (let i = 0; i < teamsView.length; i++) {
-        var team_players = teamsView[i].collection.collectionName + "_players";
-        for (let j = 0; j < playerView.length; j++) {
-            if (playerView[j].collection.collectionName == team_players) {
-                playerView[j].aggregate([{ $match: { playDispNm: player}}, { $group : { _id: performance, max: { $max : "$" + performance }}}], function(err, query) {
-                    if (query.length>0) {
-                        playerView[j].find({[performance]: query[0].max, playDispNm: player}, function(err, query) {
-                            if (err)
-                                console.log(err);
-                            else
-                            if (query.length>0) {
-                                res.render("playerHighestPerformanceShow", {query: query, performance: performance});
-                            }
-                        })    
-                    }
-                });
-            }          
-        }
-    }
+    Player.aggregate([
+        {$match: {"playDispNm": player}},
+        {$group: {_id: "$playDispNm", max: {$max : "$" + performance}}}
+    ], function(err, query) {
+        var maxVal = query[0].max;
+        Player.find({[performance]: maxVal, playDispNm: player}, function(err, result) {
+            if (err)
+                console.log(err);
+            else
+                res.render("playerHighestPerformanceShow", {query: result, performance: performance});
+        });
+    });
 });
 
 -/*
-* 7. Input East/West, Output the first position's team.
+* 8. Input player, output the count of starter.
 */
-app.post("/mongoDB/playerStarter", function(req, res) {
+app.post("/mongoDB/query8Show", function(req, res) {
     var player = req.body.player;
-    for (let i = 0; i < teamsView.length; i++) {
-        var team_players = teamsView[i].collection.collectionName + "_players";
-        for (let j = 0; j < playerView.length; j++) {
-            if (playerView[j].collection.collectionName == team_players) {
-                playerView[j].count({ $and: [ { playDispNm: player }, { playStat: "Starter"} ]}, function(err, query) {
-                if (err)
-                    console.log(err);
-                else
-                    if (query > 0) {
-                        res.render("playerStarterShow", {query: query});
-                    }
-                })
-            }
+    Player.countDocuments({$and: [{"playDispNm": player}, {"playStat": "Starter"}]}, function(err, query) {
+        if(err)
+            console.log(err);
+        else {
+            if (query > 0) 
+                res.render("playerStarterShow", {query: query});
         }
-    }
+    });
 });
 
 /*
-* 8. Input player, output the count of starter.
+* 9. Input team, output bench player, highest average time
 */
-app.post("/mongodb/teamBenchAvgTime", function(req, res) {
+app.post("/mongodb/query9Show", function(req, res) {
     var team = req.body.team;
     var team_players = team + "_players";
     var playDispNm = '', avgPoint = 0;
@@ -430,35 +421,24 @@ app.post("/mongodb/teamBenchAvgTime", function(req, res) {
 });
 
 /*
-* 9. Input team, output bench player, highest average time.
+* 7. Input East/West, Output the first position's team
 */
-app.post("/mongoDB/teamConfFirst", function(req, res) {
+app.post("/mongoDB/query7Show", function(req, res) {
     var conf = req.body.conf;
-    for (let i = 0; i < teamsView.length; i++) {
-        teamsView[i].findOne({}, function(err, query) {
-            if(query.teamConf == conf) {
-                var team_standing = teamsView[i].collection.collectionName + "_standing";
-                for (let j = 0; j < standingView.length; j++) {
-                    if (standingView[j].collection.collectionName == team_standing) {
-                        standingView[j].findOne({stDate: "2018/4/11"}, function(err, query) {
-                            if (err)
-                                console.log(err);
-                            else
-                            if (query.rank == 1) {
-                                res.render("teamConfFirstShow", {query: query})
-                            }
-                        });
-                    }
-                }
-            }
-        })
-    }
+    Team.find({"teamConf": conf}).distinct("teamAbbr", function(err, teams) {
+        Standing.find({"stDate": "2018/4/11", "teamAbbr": {$in: teams}, "rank": 1}, "teamAbbr", function(err, query) {
+            if (err)
+                console.log(err);
+            else
+                res.render("teamConfFirstShow", {query: query});
+        });
+    });
 });
 
 /*
 * 10. Output team's average OT's points.
 */
-app.post("/mongoDB/teamAvgOTShow", function(req, res) {
+app.post("/mongoDB/query10Show", function(req, res) {
     var team = req.body.team;
     Team.aggregate([
         {$match: {$or: [{"teamAbbr": team}, {"opptAbbr": team}]}},
@@ -484,7 +464,7 @@ app.post("/mongoDB/teamAvgOTShow", function(req, res) {
 * 11. Output player's weekly/monthly/seasonal points.
 */
 
-app.post("/mongoDB/playerPointsShow", function(req, res) {
+app.post("/mongoDB/query11Show", function(req, res) {
     var player = req.body.player;
     var time = req.body.time;
     if (time == "week") {

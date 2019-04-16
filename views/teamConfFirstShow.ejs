@@ -4,9 +4,11 @@
         <tr>
             <th>1st of conf</th>
         </tr>
+        <% query.forEach(function(res) {%>
         <tr>
-            <td><%=query.teamAbbr %></td>
+            <td><%=res.teamAbbr %></td>
         </tr>
+        <% }) %>
     </table>
     <a href="/mongodb" class="btn btn-primary">Go Back</a>
 </div>
