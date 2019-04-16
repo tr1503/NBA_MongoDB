@@ -383,7 +383,7 @@ app.post("/mongoDB/query6Show", function(req, res) {
 */
 app.post("/mongoDB/query8Show", function(req, res) {
     var player = req.body.player;
-    Player.countDocuments({$and: [{"playDispNm": player}, {"playStat": "Starter"}]}, function(err, query) {
+    Player.count({$and: [{"playDispNm": player}, {"playStat": "Starter"}]}, function(err, query) {
         if(err)
             console.log(err);
         else {

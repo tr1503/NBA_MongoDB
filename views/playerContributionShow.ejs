@@ -2,14 +2,14 @@
 <div class="container">
     <table class="table">
         <tr>
-            <th>Player</th>
             <th>Date</th>
+            <th>Opponent</th>
             <th><%= performance %></th>
         </tr>
         <% query.forEach(function(res) { %>
             <tr>
-                <td><%= res.playDispNm %></td>
                 <td><%= res.gmDate %></td>
+                <td><%= res.opptAbbr %></td>
                 <% if (performance == "playPTS") {%>
                     <td><%= res.playPTS %></td>
                 <%}%>

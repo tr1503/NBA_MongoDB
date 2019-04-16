@@ -5,12 +5,12 @@
             <th>Team</th>
             <th>Highest Rank</th>
         </tr>
-        <tr>
-            <% query.forEach(function(res) { %>
+        <% query.forEach(function(res) { %>
+            <tr>
                 <td><%= res._id %></td>
                 <td><%= res.highestRank %></td>
-            <% }) %>
-        </tr>
+            </tr>
+        <% }) %>
     </table>
     <a href="/mongodb" class="btn btn-primary">Go Back</a>
 </div>
