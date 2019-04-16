@@ -1,0 +1,66 @@
+<% include partials/header %>
+<div class="container">
+    <table class="table">
+        <tr>
+            <th>Player</th>
+            <th>Date</th>
+            <th><%= performance %></th>
+        </tr>
+        <% query.forEach(function(res) { %>
+            <tr>
+                <td><%= res.playDispNm %></td>
+                <td><%= res.gmDate %></td>
+                <% if (performance == "playPTS") {%>
+                    <td><%= res.playPTS %></td>
+                <%}%>
+                <%if (performance == "playAST") {%> 
+                    <td><%= res.playAST %></td>
+                <%}%>
+                <%if (performance == "playTO") {%> 
+                    <td><%= res.playTO %></td>
+                <%}%>
+                <%if (performance == "playSTL") {%> 
+                    <td><%=res.playSTL%></td>
+                <%}%>
+                <%if (performance == "playBLK") {%> 
+                    <td><%=res.playBLK%></td>
+                <%}%>
+                <%if (performance == "playPF") {%> 
+                    <td><%=res.playPF%></td>   
+                <%}%>                 
+                <%if (performance == "playFGA") {%> 
+                    <td><%=res.playFGA%></td>
+                <%}%>
+                <%if (performance == "playFGM") {%> 
+                    <td><%=res.playFGM%></td>
+                <%}%>
+                <%if (performance == "play2PA") {%> 
+                    <td><%=res.play2PA%></td>
+                <%}%>
+                <%if (performance == "play2PM") {%> 
+                    <td><%=res.play2PM%></td>
+                <%}%>
+                <%if (performance == "play3PA") {%> 
+                    <td><%=res.play3PA%></td>
+                <%}%>
+                <%if (performance == "play3PM") {%> 
+                    <td><%=res.play3PM%></td>
+                <%}%>
+                <%if (performance == "playFTA") {%> 
+                    <td><%=res.playFTA%></td>
+                <%}%>
+                <%if (performance == "playFTM") {%> 
+                    <td><%=res.playFTM%></td>
+                <%}%>
+                <%if (performance == "playORB") {%> 
+                    <td><%=res.playORB%></td>
+                <%}%>
+                <%if (performance == "playDRB") {%> 
+                    <td><%=res.playDRB%></td> 
+                <%}%>
+            </tr>
+        <% }) %>
+    </table>
+    <a href="/mongodb" class="btn btn-primary">Go Back</a>
+</div>
+<% include partials/footer %>

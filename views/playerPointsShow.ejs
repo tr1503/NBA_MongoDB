@@ -2,17 +2,21 @@
 <div class="container">
     <table class="table">
         <tr>
-            <th><%= time %></th>
             <th>Player</th>
             <th>Average Points</th>
         </tr>
         <% query.forEach(function(res) {%>
             <tr>
-                <% if (time != "season") {%>
-                    <td><%= res._id %></td>
-                <% } %>
                 <td><%= player %></td>
-                <td><%= res. %></td>
+                <%if (time == "week") {%> 
+                    <td><%=res.weeklyPoints%></td>
+                <%}%>
+                <%if (time == "month") {%> 
+                    <td><%=res.monthlyPoints%></td>
+                <%}%>
+                <%if (time == "season") {%> 
+                    <td><%=res.seasonalPoints%></td>
+                <%}%>
             </tr>
         <%})%>
     </table>

@@ -308,6 +308,17 @@ app.post("/mongoDB/playerContributionShow", function(req, res) {
     var player = req.body.player;
     var rank = req.body.rank;
     var performance = req.body.performance;
+    Player.find({"playDispNm": player}).distinct("teamAbbr", function(err, teams) {
+        Standing.find({"teamAbbr": {$in: teams}, "rank": Number(rank)}, function(err, query) {
+            var dates = [];
+            query.forEach(function(result) {
+                dates.push(result.stDate);
+            });
+            Player.find({"gmDate": {$in: dates}, "playDispNm": player}, function(err, query) {
+                res.render("playerContributionShow", {query: query, performance: performance});
+            });
+        });
+    });
 });
 
 app.post("/mongoDB/teamPerformanceShow", function(req, res) {
@@ -445,35 +456,28 @@ app.post("/mongoDB/teamConfFirst", function(req, res) {
 });
 
 /*
-* 10. Output all team's average OT's points.
+* 10. Output team's average OT's points.
 */
 app.post("/mongoDB/teamAvgOTShow", function(req, res) {
-    let totalPoints = {}
-    let total = 2419
-    for (let i = 0; i < teamsView.length; i++) {
-        totalPoints[teamsView[i].collection.collectionName] = 0
-    }
-    for (let j = 0; j < teamsView.length; j++) {
-        teamsView[j].find({}, function(err, query) {
-            if (err)
-                console.log(err);
-            else
-            for (let i = 0; i < query.length; i++) {
-                let element = query[i]
-                totalPoints[element.teamAbbr] += element.teamPTS5 + element.teamPTS6 + element.teamPTS7 + element.teamPTS8
-                totalPoints[element.opptAbbr] += element.opptPTS5 + element.opptPTS6 + element.opptPTS7 + element.opptPTS8
-                total--;
-            }
-            if(total == 0) {
-                let results = {}
-                for (let i = 0; i < teamsView.length; i++) {
-                    let team = teamsView[i].collection.collectionName;
-                    results[team] = totalPoints[team]/82
+    var team = req.body.team;
+    Team.aggregate([
+        {$match: {$or: [{"teamAbbr": team}, {"opptAbbr": team}]}},
+        {$addFields: {
+            teamOTS: {$add: ["$teamPTS5", "$teamPTS6", "$teamPTS7", "$teamPTS8"]},
+            opptOTS: {$add: ["$opptPTS5", "$opptPTS6", "$opptPTS7", "$opptPTS8"]}
+        }}
+        ], function(err, query){
+            var totalOTS = 0;
+            query.forEach(function(result) {
+                if(result.teamAbbr == team) {
+                    totalOTS += result.teamOTS;
+                } else {
+                    totalOTS += result.opptOTS;
                 }
-                res.render("teamAvgOTShow", {query: results})
-            }
-        })
-    }
+            });
+            var avgOTS = totalOTS / 82;
+            res.render("teamAvgOTShow", {team: team, avgOTS: avgOTS});
+    });
 });
 
 /*
@@ -529,7 +533,7 @@ app.post("/mongoDB/playerPointsShow", function(req, res) {
                 {"playDispNm": player}
             },
             {$group: 
-                {_id: "$playDispNm","SeasonalPoints": {$avg: "$playPTS"}
+                {_id: "$playDispNm","seasonalPoints": {$avg: "$playPTS"}
             }}], function(err, query) {
             if (err)
                 console.log(err)
