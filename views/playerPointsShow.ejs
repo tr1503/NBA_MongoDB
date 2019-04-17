@@ -8,9 +8,6 @@
         <% query.forEach(function(res) {%>
             <tr>
                 <td><%= player %></td>
-                <%if (time == "week") {%> 
-                    <td><%=res.weeklyPoints%></td>
-                <%}%>
                 <%if (time == "month") {%> 
                     <td><%=res.monthlyPoints%></td>
                 <%}%>

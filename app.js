@@ -467,27 +467,7 @@ app.post("/mongoDB/query10Show", function(req, res) {
 app.post("/mongoDB/query11Show", function(req, res) {
     var player = req.body.player;
     var time = req.body.time;
-    if (time == "week") {
-        Player.aggregate([
-            {$match: 
-                {"playDispNm": player}
-            },
-            {$project: 
-                {"week": 
-                    {$week: {$dateFromString: {
-                        dateString: "$gmDate"
-                    }}},
-                "playPTS": 1}
-            },
-            {$group: 
-                {_id: "$week","weeklyPoints": {$avg: "$playPTS"}
-            }}], function(err, query) {
-            if (err)
-                console.log(err)
-            else
-                res.render("playerPointsShow",{query: query, player: player, time: time});
-        });
-    } else if (time == "month") {
+    if (time == "month") {
         Player.aggregate([
             {$match: 
                 {"playDispNm": player}
